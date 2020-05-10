@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  db_os:
+    image: mysql:5.7
+    volumes:
+      - new_mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: ayushi
+      MYSQL_PASSWORD: hello123
+      MYSQL_DATABASE: mydb
+
+  wordpress_os:
+    image: wordpress:5.1.1-php7.3-apache
+    restart: always
+    depends_on: 
+      - db_os
+    ports:
+      - 8081:80
+    environment:
+      WORDPRESS_DB_HOST: db_os
+      WORDPRESS_DB_USER: ayushi
+      WORDPRESS_DB_PASSWORD: hello123
+      WORDPRESS_DB_NAME: mydb
+    volumes:
+      - new_wp:/var/www/html
+
+volumes:
+  new_mysql:
+  new_wp: 
